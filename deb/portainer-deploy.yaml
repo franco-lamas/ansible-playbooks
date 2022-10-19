@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Deploy Portainer CE
+      docker_volume:
+        name: portainer_data
+        state: present
+    - name: Deploy Portainer 
+      docker_container:
+        image: portainer/portainer-ce:2.9.3
+        name: portainer
+        state: started
+        recreate: yes
+        restart_policy: always
+        published_ports:
+          - "9443:9443"
+          - "8000:8000"
+        volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock"
+          - "portainer_data:/data"
