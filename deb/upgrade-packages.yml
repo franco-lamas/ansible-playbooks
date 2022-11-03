@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Update packages
+      apt:
+        update_cache: true
+        upgrade: dist
+        force_apt_get: true
